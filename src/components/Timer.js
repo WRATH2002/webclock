@@ -83,6 +83,7 @@ const Timer = () => {
               var tmph = "0" + tempHour;
               setHour(tmph);
               setMinute("59");
+              setSecond("59");
             } else if (tempHour === -1) {
               // setMinute("59");
               setFlag(false);
@@ -193,10 +194,10 @@ const Timer = () => {
         temp === 9
       ) {
         var subtemp = "0" + temp;
-        setMinute(subtemp);
+        setSecond(subtemp);
       } else {
         var subtemp = temp.toString();
-        setMinute(subtemp);
+        setSecond(subtemp);
       }
     }
   }
@@ -238,13 +239,13 @@ const Timer = () => {
           style={{ transition: ".5s" }}
         >
           <div
-            className="w-full h-full flex  justify-center items-center font-[timer2]  text-white text-[30px] tracking-[3px] drop-shadow-lg"
+            className="w-full h-full flex  justify-center items-center font-[timer]  text-white text-[30px] tracking-[3px] drop-shadow-lg"
             style={{ transition: ".5s" }}
           >
             {mainFlag === false ? (
               <>
                 <input
-                  className="w-[60px] rounded-lg outline-none drop-shadow-lg bg-[#2e384f] text-white px-[11px]"
+                  className="w-[60px] rounded-lg outline-none drop-shadow-lg bg-[#2e384f] text-white px-[15px] h-[40px] text-[23px] "
                   value={hour}
                   placeholder="00"
                   type="number"
@@ -252,7 +253,7 @@ const Timer = () => {
                 ></input>
                 :
                 <input
-                  className="w-[60px] rounded-lg outline-none drop-shadow-lg bg-[#2e384f] text-white px-[11px]"
+                  className="w-[60px] rounded-lg outline-none drop-shadow-lg bg-[#2e384f] text-white px-[15px] h-[40px] text-[23px] "
                   value={minute}
                   placeholder="00"
                   type="number"
@@ -263,7 +264,7 @@ const Timer = () => {
                 ></input>
                 :
                 <input
-                  className="w-[60px] rounded-lg outline-none drop-shadow-lg bg-[#2e384f] text-white px-[11px]"
+                  className="w-[60px] rounded-lg outline-none drop-shadow-lg bg-[#2e384f] text-white px-[15px] h-[40px] text-[23px] "
                   value={second}
                   placeholder="00"
                   type="number"
