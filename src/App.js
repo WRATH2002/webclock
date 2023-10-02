@@ -15,12 +15,13 @@ import store from "./utils/store";
 
 function App() {
   const [mode, setMode] = useState(1);
+  // const dispatch = useDispatch();
 
   return (
     <>
       <Provider store={store}>
         <div
-          className="w-full h-[80px] fixed bg-[#293040] drop-shadow-lg px-[40px]"
+          className="w-full h-[60px] lg:h-[80px] md:h-[80px] fixed bg-[#293040] drop-shadow-lg px-[40px]"
           style={{ zIndex: "5" }}
         >
           <span className="drop-shadow-lg flex justify-start items-center h-full font-[timer] font-extrabold text-white text-[18px] tracking-[3px]">

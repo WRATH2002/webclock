@@ -11,6 +11,7 @@ const timeSlice = createSlice({
       state.timeFlag.push(action.payload);
       console.log(state.timeFlag);
     },
+
     clearTimeFlag: (state) => {
       state.timeFlag = [];
     },

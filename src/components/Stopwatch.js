@@ -160,7 +160,7 @@ const Stopwatch = () => {
           style={{ transition: ".5s" }}
         >
           <div
-            className="w-full h-full flex flex-col justify-center items-center font-[timer2]  text-white text-[30px] tracking-[3px] drop-shadow-lg"
+            className="w-full h-full flex flex-col justify-center items-center font-[timer2] font-thin  text-white text-[30px] tracking-[3px] drop-shadow-lg"
             style={{ transition: ".5s" }}
           >
             {minute}:{second}:{milisecond}

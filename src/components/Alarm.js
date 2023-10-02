@@ -2,7 +2,8 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { MdTimer } from "react-icons/md";
 import { BiSolidAlarm } from "react-icons/bi";
 import { RxLapTimer } from "react-icons/rx";
-import { BiChevronDown } from "react-icons/bi";
+import { AiTwotoneEdit } from "react-icons/ai";
+import { GiAlarmClock } from "react-icons/gi";
 import { AiFillDelete } from "react-icons/ai";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -23,14 +24,14 @@ const AlarmContainer = (props) => {
 
   return (
     <>
-      <div className="w-full font-[timer2] h-[60px] bg-[#282f3f] drop-shadow-lg rounded-xl flex justify-between items-center mb-[17px] px-[20px] ">
+      <div className="w-full  font-[timer2] font-thin h-[60px] bg-[#282f3f] drop-shadow-lg rounded-xl flex justify-between items-center mb-[17px] px-[20px] ">
         <div className="w-[100px] h-full flex justify-start items-center  tracking-[1px]  text-[white]">
           {props.data.hour}:{props.data.minute} {props.data.dayflag}
         </div>
-        <div className=" w-[calc(100%-160px)] mx-[15px]  text-[14px] hidden lg:flex md:flex justify-start items-start text-white h-[21px] overflow-y-hidden ">
+        <div className=" w-[calc(100%-185px)] mx-[15px]  text-[14px] hidden lg:flex md:flex justify-start items-start text-white h-[21px] overflow-y-hidden ">
           {props.data.label}
         </div>
-        <div className="w-[30px] text-[20px]  h-full flex justify-end items-center ">
+        <div className="w-[55px] text-[20px]  h-full flex justify-between overflow-x-hidden text-ellipsis items-center ">
           {/* {slider === false ? (
             <div
               className="w-[50px] h-[20px] bg-[#415167] rounded-full  flex   items-center drop-shadow-lg cursor-pointer select-none"
@@ -54,6 +55,10 @@ const AlarmContainer = (props) => {
               ></div>
             </div>
           )} */}
+          <AiTwotoneEdit
+            className="text-white cursor-pointer hover:text-[#28abe4]"
+            style={{ transition: ".3s" }}
+          />
           <AiFillDelete
             className="text-white cursor-pointer hover:text-[#28abe4]"
             style={{ transition: ".3s" }}
@@ -344,9 +349,9 @@ const Alarm = () => {
               // style={{ transition: ".5s" }}
             >
               <div className="w-full">
-                <div className="w-full font-[timer2] text-white text-[30px] tracking-[3px] drop-shadow-lg  h-[80px] p-[25px] flex justify-center items-center">
+                <div className="w-full font-[timer2]   font-thin text-white text-[30px] tracking-[3px]   h-[80px] p-[25px] flex justify-center items-center">
                   <input
-                    className="w-[60px] h-[40px] rounded-lg outline-none  bg-[#2e384f] text-[20px] flex justify-center placeholder:text-center text-white px-[17px]"
+                    className="w-[60px] h-[40px] rounded-lg outline-none  bg-transparent  text-[20px] flex justify-center placeholder:text-center text-white px-[17px]"
                     value={hour}
                     placeholder="00"
                     type="number"
@@ -357,7 +362,7 @@ const Alarm = () => {
                   ></input>
                   <span className="">:</span>
                   <input
-                    className="w-[60px] h-[40px] rounded-lg outline-none  bg-[#2e384f] text-[20px] flex justify-center items-center placeholder:text-center text-white px-[17px]"
+                    className="w-[60px] h-[40px] rounded-lg outline-none  bg-transparent  text-[20px] flex justify-center items-center placeholder:text-center text-white px-[17px]"
                     value={minute}
                     placeholder="00"
                     type="number"
@@ -366,7 +371,7 @@ const Alarm = () => {
                     }}
                   ></input>
                   <input
-                    className="ml-[20px] lg:ml-[30px]  md:ml-[30px] w-[60px] h-[40px] rounded-lg outline-none  bg-[#2e384f] text-[20px] flex justify-center items-center placeholder:text-center text-white px-[16px]"
+                    className="ml-[20px] lg:ml-[30px]  md:ml-[30px] w-[60px] h-[40px] rounded-lg outline-none  bg-transparent  text-[20px] flex justify-center items-center placeholder:text-center text-white px-[16px]"
                     value={dayflag}
                     placeholder="AM"
                     type="text"
@@ -379,7 +384,7 @@ const Alarm = () => {
                   ></input>
                 </div>
 
-                <div className="w-full flex justify-center items-center ">
+                <div className="w-full flex justify-center items-center  font-[timer2] font-thin ">
                   <input
                     value={label}
                     onChange={(e) => {
@@ -388,7 +393,7 @@ const Alarm = () => {
                       // forMinute();
                     }}
                     placeholder="Label ( Optional )"
-                    className="font-[timer] w-[90%] h-[40px] rounded-lg outline-none drop-shadow-lg bg-[#2e384f] text-white px-[15px]"
+                    className="font-[timer] w-[90%] h-[40px] rounded-lg outline-none  bg-transparent text-white px-[15px]"
                   ></input>
                 </div>
                 {/* <div className="text-white">
@@ -397,8 +402,8 @@ const Alarm = () => {
 
                 <div className="w-full flex justify-center items-center mt-[15px] font-semibold">
                   {error === true ? (
-                    <span className="text-[#ff6300] font-[timer]">
-                      Enter values to necessary fields
+                    <span className="text-[#ff6300]  font-[timer2] font-thin">
+                      Enter proper Time
                     </span>
                   ) : (
                     <></>
@@ -423,7 +428,11 @@ const Alarm = () => {
           <>
             <div className="w-full h-[385px]  lg:h-[240px] md:h-[240px]  overflow-y-scroll ">
               {alarminfo.length === 0 ? (
-                <></>
+                <>
+                  <div className="w-full h-full flex justify-center items-center text-[110px] text-[#ffffff57]">
+                    <GiAlarmClock />
+                  </div>
+                </>
               ) : (
                 <>
                   {alarminfo.map((info) => {

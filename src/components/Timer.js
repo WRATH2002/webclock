@@ -239,13 +239,13 @@ const Timer = () => {
           style={{ transition: ".5s" }}
         >
           <div
-            className="w-full h-full flex  justify-center items-center font-[timer]  text-white text-[30px] tracking-[3px] drop-shadow-lg"
+            className="w-full h-full flex  justify-center items-center font-[timer]  text-white text-[30px] tracking-[3px] "
             style={{ transition: ".5s" }}
           >
             {mainFlag === false ? (
               <>
                 <input
-                  className="w-[60px] rounded-lg outline-none drop-shadow-lg bg-[#2e384f] text-white px-[15px] h-[40px] text-[23px] "
+                  className="w-[60px] rounded-lg outline-none  bg-[#2e384f] text-white px-[15px] h-[40px] text-[23px] "
                   value={hour}
                   placeholder="00"
                   type="number"
@@ -253,7 +253,7 @@ const Timer = () => {
                 ></input>
                 :
                 <input
-                  className="w-[60px] rounded-lg outline-none drop-shadow-lg bg-[#2e384f] text-white px-[15px] h-[40px] text-[23px] "
+                  className="w-[60px] rounded-lg outline-none  bg-[#2e384f] text-white px-[15px] h-[40px] text-[23px] "
                   value={minute}
                   placeholder="00"
                   type="number"
@@ -264,7 +264,7 @@ const Timer = () => {
                 ></input>
                 :
                 <input
-                  className="w-[60px] rounded-lg outline-none drop-shadow-lg bg-[#2e384f] text-white px-[15px] h-[40px] text-[23px] "
+                  className="w-[60px] rounded-lg outline-none  bg-[#2e384f] text-white px-[15px] h-[40px] text-[23px] "
                   value={second}
                   placeholder="00"
                   type="number"
