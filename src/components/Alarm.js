@@ -3,24 +3,35 @@ import { MdTimer } from "react-icons/md";
 import { BiSolidAlarm } from "react-icons/bi";
 import { RxLapTimer } from "react-icons/rx";
 import { BiChevronDown } from "react-icons/bi";
+import { AiFillDelete } from "react-icons/ai";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { addAlarmInfo } from "../utils/timeSlice";
+import { addAlarmInfo, fiterinfo } from "../utils/timeSlice";
+import endtimer from "../assets/audio/endtimer.mp3";
+import { useEffect } from "react";
 
 const AlarmContainer = (props) => {
   const [slider, setSlider] = useState(false);
+  const dispatch = useDispatch();
+
+  function removeitem(fid) {
+    console.log("inside remove function");
+    console.log(fid);
+    dispatch(fiterinfo({ fid }));
+  }
+
   return (
     <>
-      <div className="w-full h-[60px] bg-[#282f3f] drop-shadow-lg font-[timer] rounded-xl flex justify-between items-center mb-[17px] px-[20px] ">
-        <div className="w-[100px] h-full flex justify-start items-center font-[timer] tracking-[3px] font-bold text-[white]">
+      <div className="w-full font-[timer2] h-[60px] bg-[#282f3f] drop-shadow-lg rounded-xl flex justify-between items-center mb-[17px] px-[20px] ">
+        <div className="w-[100px] h-full flex justify-start items-center  tracking-[1px]  text-[white]">
           {props.data.hour}:{props.data.minute} {props.data.dayflag}
         </div>
-        <div className="w-[calc(100%-200px)] mx-[15px] font-semibold text-[14px] flex justify-start items-start text-white h-[21px] overflow-y-hidden ">
+        <div className=" w-[calc(100%-160px)] mx-[15px]  text-[14px] hidden lg:flex md:flex justify-start items-start text-white h-[21px] overflow-y-hidden ">
           {props.data.label}
         </div>
-        <div className="w-[70px] h-full flex justify-end items-center ">
-          {slider === false ? (
+        <div className="w-[30px] text-[20px]  h-full flex justify-end items-center ">
+          {/* {slider === false ? (
             <div
               className="w-[50px] h-[20px] bg-[#415167] rounded-full  flex   items-center drop-shadow-lg cursor-pointer select-none"
               style={{ transition: ".5s" }}
@@ -42,7 +53,16 @@ const AlarmContainer = (props) => {
                 style={{ transition: ".5s" }}
               ></div>
             </div>
-          )}
+          )} */}
+          <AiFillDelete
+            className="text-white cursor-pointer hover:text-[#28abe4]"
+            style={{ transition: ".3s" }}
+            onClick={() => {
+              var temp = props.data.indexid;
+              console.log("inside onclick");
+              removeitem(temp);
+            }}
+          />
         </div>
       </div>
     </>
@@ -51,6 +71,10 @@ const AlarmContainer = (props) => {
 
 const Alarm = () => {
   const [pop, setPop] = useState(false);
+  const [indexid, setIndexid] = useState(0);
+  const [found, setFound] = useState(false);
+  const [foundindex, setFoundindex] = useState(0);
+  const [foundsound, setfoundsound] = useState(false);
 
   const [hour, setHour] = useState("");
   const [minute, setMinute] = useState("");
@@ -62,6 +86,100 @@ const Alarm = () => {
   const dispatch = useDispatch();
   const alarminfo = useSelector((store) => store.time.alarmInfo);
   console.log(alarminfo);
+
+  const [time, setTime] = useState(new Date());
+
+  const [liveHour, setLiveHour] = useState(new Date());
+  const [liveMinute, setLiveMinute] = useState(new Date());
+  const [liveMilisecond, setLiveMilisecond] = useState(new Date());
+  useEffect(() => {
+    if (foundsound === true) {
+      // playEndAudio();
+    }
+    setInterval(() => {
+      getdate();
+      checkAlarm();
+    }, 1000);
+  });
+
+  function checkAlarm() {
+    var tempDayFlag;
+    var tempLiveHour = parseInt(liveHour);
+    var tempLiveMinute = parseInt(liveMinute);
+
+    if (tempLiveHour > 12) {
+      var subtempLiveHour = parseInt(liveHour) - 12;
+      tempDayFlag = "PM";
+    } else {
+      var subtempLiveHour = parseInt(liveHour);
+      tempDayFlag = "AM";
+    }
+    // console.log(tempDayFlag);
+
+    alarminfo.forEach((info) => {
+      if (info.dayflag == tempDayFlag) {
+        // console.log(true);
+        var alarmHour = parseInt(info.hour);
+        if (alarmHour == subtempLiveHour) {
+          var alarmMinute = parseInt(info.minute);
+          if (alarmMinute == tempLiveMinute) {
+            var fid = info.indexid;
+            setfoundsound(true);
+            dispatch(fiterinfo({ fid }));
+          }
+        }
+      } else {
+        // console.log(false);
+      }
+    });
+
+    // ------------------
+
+    // if (templivehour > 12) {
+    //   var temp = parseInt(liveHour) - 12;
+    //   alarminfo.forEach((info) => {
+    //     var temptwo = parseInt(info.hour);
+    //     if (temp === temptwo) {
+    //       playEndAudio();
+    //       var isLiveMinute = parseInt(liveMinute);
+    //       var isTempMinute = parseInt(info.minute);
+    //       if (isLiveMinute == isTempMinute) {
+    //         var fid = info.indexid;
+    //         dispatch(fiterinfo({ fid }));
+    //       }
+    //     }
+    //   });
+    // } else {
+    //   var tempp = parseInt(liveHour);
+    //   alarminfo.forEach((info) => {
+    //     var temptwoo = parseInt(info.hour);
+    //     if (tempp === temptwoo) {
+    //       var isLiveMinute = parseInt(liveMinute);
+    //       var isTempMinute = parseInt(info.minute);
+    //       if (isLiveMinute == isTempMinute) {
+    //         var fid = info.indexid;
+    //         dispatch(fiterinfo({ fid }));
+    //       }
+    //       playEndAudio();
+    //     }
+    //   });
+    // }
+  }
+
+  function playEndAudio() {
+    new Audio(endtimer).play();
+    setfoundsound(false);
+  }
+
+  function getdate() {
+    const date = new Date();
+    const lhour = date.getHours();
+    const lminute = date.getMinutes();
+    const lmilisecond = date.getMilliseconds();
+    setLiveHour(lhour);
+    setLiveMinute(lminute);
+    setLiveMilisecond(lmilisecond);
+  }
 
   function checkMinute(value) {
     var temp = parseInt(value);
@@ -83,6 +201,8 @@ const Alarm = () => {
   function reset() {
     setHour("");
     setMinute("");
+    setLabel("");
+    setDayflag("");
   }
 
   function checkAll() {
@@ -92,44 +212,77 @@ const Alarm = () => {
   }
 
   function forMinute() {
-    var temp = parseInt(minute);
-    if (
-      temp === 0 ||
-      temp === 1 ||
-      temp === 2 ||
-      temp === 3 ||
-      temp === 4 ||
-      temp === 5 ||
-      temp === 6 ||
-      temp === 7 ||
-      temp === 8 ||
-      temp === 9
-    ) {
-      var subtemp = "0" + temp.toString();
-      setMinute(subtemp);
+    // var temp = parseInt(minute);
+    // if (
+    //   temp === 0 ||
+    //   temp === 1 ||
+    //   temp === 2 ||
+    //   temp === 3 ||
+    //   temp === 4 ||
+    //   temp === 5 ||
+    //   temp === 6 ||
+    //   temp === 7 ||
+    //   temp === 8 ||
+    //   temp === 9
+    // ) {
+    //   var subtemp = "0" + temp.toString();
+    //   setMinute(subtemp);
+    // }
+    if (minute.length != 2) {
+      var sub = parseInt(minute);
+      console.log("sub");
+      console.log(sub);
+      if (sub < 10) {
+        var subtemp = sub.toString();
+        var temp = "0".concat(subtemp);
+        setMinute(temp);
+        console.log("temp");
+        console.log(minute);
+      } else {
+        var subtemp = sub.toString();
+        setMinute(subtemp);
+      }
     }
   }
 
   function forHour() {
-    console.log(hour);
-    var temp = parseInt(hour);
-    console.log("0" + temp.toString());
+    // console.log(hour);
+    // var temp = parseInt(hour);
+    // setHour("");
+    // console.log("0" + temp.toString());
 
-    if (
-      temp === 1 ||
-      temp === 2 ||
-      temp === 3 ||
-      temp === 4 ||
-      temp === 5 ||
-      temp === 6 ||
-      temp === 7 ||
-      temp === 8 ||
-      temp === 9
-    ) {
-      var subtemp = "0" + temp.toString();
-      console.log(typeof subtemp);
-      setHour(subtemp);
-      console.log(hour);
+    // if (
+    //   temp === 1 ||
+    //   temp === 2 ||
+    //   temp === 3 ||
+    //   temp === 4 ||
+    //   temp === 5 ||
+    //   temp === 6 ||
+    //   temp === 7 ||
+    //   temp === 8 ||
+    //   temp === 9
+    // ) {
+    //   var q = temp.toString();
+    //   var zero = "0";
+    //   var subtemp = zero.concat(q);
+    //   console.log(typeof subtemp);
+    //   setHour(subtemp);
+    //   console.log(hour);
+    // }
+    if (hour.length != 2) {
+      var sub = parseInt(hour);
+      console.log("sub");
+      console.log(sub);
+      if (sub < 10) {
+        var subtemp = sub.toString();
+        var temp = "0".concat(subtemp);
+        setHour(temp);
+        console.log("temp");
+        console.log(hour);
+      } else {
+        var subtemp = sub.toString();
+        setHour(subtemp);
+      }
     }
   }
 
@@ -162,13 +315,14 @@ const Alarm = () => {
   }
 
   function sendAlarmInfo() {
-    if (hour != "" && minute != "" && dayflag != "") {
+    if (hour != "" && minute != "" && dayflag.length === 2) {
       forMinute();
       forHour();
       if (hour == "00") {
         setHour("12");
       }
-      dispatch(addAlarmInfo({ hour, minute, dayflag, label }));
+      dispatch(addAlarmInfo({ hour, minute, dayflag, label, indexid }));
+      setIndexid(indexid + 1);
       setPop(false);
       setHour("");
       setMinute("");
@@ -190,7 +344,7 @@ const Alarm = () => {
               // style={{ transition: ".5s" }}
             >
               <div className="w-full">
-                <div className="w-full font-[timer] text-white text-[30px] tracking-[3px] drop-shadow-lg  h-[80px] p-[25px] flex justify-center items-center">
+                <div className="w-full font-[timer2] text-white text-[30px] tracking-[3px] drop-shadow-lg  h-[80px] p-[25px] flex justify-center items-center">
                   <input
                     className="w-[60px] h-[40px] rounded-lg outline-none  bg-[#2e384f] text-[20px] flex justify-center placeholder:text-center text-white px-[17px]"
                     value={hour}
@@ -201,7 +355,7 @@ const Alarm = () => {
                       // forHour();
                     }}
                   ></input>
-                  <span className="mx-[5px]">:</span>
+                  <span className="">:</span>
                   <input
                     className="w-[60px] h-[40px] rounded-lg outline-none  bg-[#2e384f] text-[20px] flex justify-center items-center placeholder:text-center text-white px-[17px]"
                     value={minute}
@@ -219,6 +373,8 @@ const Alarm = () => {
                     onChange={(e) => {
                       // setSecond(e.target.value);
                       checkDayflag(e.target.value);
+                      forHour();
+                      forMinute();
                     }}
                   ></input>
                 </div>
@@ -228,13 +384,16 @@ const Alarm = () => {
                     value={label}
                     onChange={(e) => {
                       setLabel(e.target.value);
-                      forHour();
-                      forMinute();
+                      // forHour();
+                      // forMinute();
                     }}
                     placeholder="Label ( Optional )"
                     className="font-[timer] w-[90%] h-[40px] rounded-lg outline-none drop-shadow-lg bg-[#2e384f] text-white px-[15px]"
                   ></input>
                 </div>
+                {/* <div className="text-white">
+                  {liveHour}:{liveMinute}:{liveMilisecond}
+                </div> */}
 
                 <div className="w-full flex justify-center items-center mt-[15px] font-semibold">
                   {error === true ? (
@@ -250,12 +409,9 @@ const Alarm = () => {
                 <button
                   className="bg-[#28abe4] text-white text-[14px] h-[40px] px-[20px] py-[5px] flex justify-center items-center rounded-full font-semibold"
                   onClick={() => {
+                    // forHour();
+
                     sendAlarmInfo();
-                    // setPop(false);
-                    // setHour("");
-                    // setMinute("");
-                    // setDayflag("");
-                    // setLabel("");
                   }}
                 >
                   ADD

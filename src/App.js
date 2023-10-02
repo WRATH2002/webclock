@@ -28,6 +28,7 @@ function App() {
           </span>
         </div>
         <div className="w-[100%]   h-[100vh] flex justify-center items-center bg-[#1d212d]">
+          {/* <LiveClock /> */}
           <div className="w-[70%] lg:w-[40%] md:w-[40%] h-[550px] lg:h-[350px] md:h-[350px] bg-[#232937] flex flex-col  lg:flex-row md:flex-row justify-between lg:justify-between md:justify-between items-between lg:items-center md:lg:items-center p-[15px] lg:p-[25px] md:p-[25px] drop-shadow-xl rounded-3xl">
             {mode === 1 ? <Alarm /> : mode === 2 ? <Stopwatch /> : <Timer />}
             <div className="w-[100%] lg:w-[60px] md:w-[60px] mt-[25px] lg:mt-0 md:mt-0   h-[50px] lg:h-full md:h-full  ml-0 lg:ml-[25px] md:ml-[25px] flex flex-row lg:flex-col md:flex-col justify-center items-center">

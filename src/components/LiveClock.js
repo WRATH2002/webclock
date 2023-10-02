@@ -19,7 +19,7 @@ const LiveClock = () => {
           Start
         </button>
       </div>
-      {/* <span>{time.toLocaleTimeString()}</span> */}
+      <span>{time.toLocaleTimeString()}</span>
     </>
   );
 };
